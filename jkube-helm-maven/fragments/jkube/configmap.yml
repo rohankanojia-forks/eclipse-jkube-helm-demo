@@ -1,0 +1,10 @@
+metadata:
+  labels:
+    helm.sh/chart: "${configmap.name}-${configmap.release}"
+    app.kubernetes.io/managed-by: "${configmap.managedby}"
+data:
+  myvalue: "Hello World"
+  drink: ${configmap.drink}
+  food: ${configmap.food} 
+  release: ${configmap.release}
+

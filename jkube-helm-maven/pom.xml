@@ -134,6 +134,7 @@
               <url>http://localhost:8080/api/charts</url>
               <type>CHARTMUSEUM</type>
               <username>user1</username>
+              <password>secret</password>
             </snapshotRepository>
           </helm>
         </configuration>
@@ -174,6 +175,106 @@
       <properties>
         <quarkus.package.type>native</quarkus.package.type>
       </properties>
+    </profile>
+    <profile>
+      <id>xml-configuration</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eclipse.jkube</groupId>
+            <artifactId>openshift-maven-plugin</artifactId>
+            <version>${jkube.version}</version>
+            <configuration>
+              <helm>
+                <chart>${project.artifactId}</chart>
+                <version>${project.version}</version>
+                <description>JKube Helm Maven demo Helm Chart (XML)</description>
+                <home>https://www.eclipse.org/jkube/</home>
+                <sources>
+                  <source>https://github.com/eclipse/jkube</source>
+                </sources>
+                <maintainers>
+                  <maintainer>
+                    <name>Maintainer1</name>
+                    <email>maintainer1@maintainer1.org</email>
+                    <url>maintainer1.org</url>
+                  </maintainer>
+                  <maintainer>
+                    <name>Maintainer2</name>
+                    <email>maintainer2@maintainer2.org</email>
+                    <url>maintainer2.org</url>
+                  </maintainer>
+                </maintainers>
+                <icon>https://helm.sh/img/helm.svg</icon>
+                <keywords>eclipse,jkube,kubernetes,maven</keywords>
+                <sourceDir>${project.basedir}/target/classes/META-INF/jkube</sourceDir>
+                <outputDir>${project.basedir}/target/jkube/helm</outputDir>
+                <chartExtension>tar.gz</chartExtension>
+                <dependencies>
+                  <dependency>
+                    <name>ingress-nginx</name>
+                    <version>3.16.1</version>
+                    <repository>https://kubernetes.github.io/ingress-nginx</repository>
+                  </dependency>
+                </dependencies>
+              </helm>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>property-configuration</id>
+      <properties>
+        <jkube.helm.chart>${project.artifactId}</jkube.helm.chart>
+        <jkube.helm.version>${project.version}</jkube.helm.version>
+        <jkube.helm.description>JKube Helm Maven demo Helm Chart (Properties)</jkube.helm.description>
+        <jkube.helm.home>https://www.eclipse.org/jkube/</jkube.helm.home>
+        <jkube.helm.icon>https://helm.sh/img/helm.svg</jkube.helm.icon>
+        <jkube.helm.type>openshift</jkube.helm.type>
+        <jkube.helm.sourceDir>${project.basedir}/target/classes/META-INF/jkube</jkube.helm.sourceDir>
+        <jkube.helm.outputDir>${project.basedir}/target/jkube/helm</jkube.helm.outputDir>
+        <jkube.helm.chartExtension>tar.gz</jkube.helm.chartExtension>
+      </properties>
+    </profile>
+    <profile>
+      <id>fragment-configuration</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eclipse.jkube</groupId>
+            <artifactId>openshift-maven-plugin</artifactId>
+            <version>${jkube.version}</version>
+            <configuration>
+              <resourceDir>${project.basedir}/fragments/jkube</resourceDir>
+              <helm>
+                <parameters>
+                  <parameter>
+                    <name>configmap.drink</name>
+                    <value>{{ .drink | default "tea" | quote }}</value>
+                  </parameter>
+                  <parameter>
+                    <name>configmap.food</name>
+                    <value>{{ .food | default "rice" | upper | quote }}</value>
+                  </parameter>
+                  <parameter>
+                    <name>configmap.release</name>
+                    <value>{{ .Chart.Version }}</value>
+                  </parameter>
+                  <parameter>
+                    <name>configmap.name</name>
+                    <value>${project.artifactId}</value>
+                  </parameter>
+                  <parameter>
+                    <name>configmap.managedby</name>
+                    <value>jkube</value>
+                  </parameter>
+                </parameters>
+              </helm>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>
