@@ -250,23 +250,19 @@
               <helm>
                 <parameters>
                   <parameter>
-                    <name>configmap.drink</name>
-                    <value>{{ .drink | default "tea" | quote }}</value>
+                    <name>crontab.spec</name>
+                    <value>{{ .spec | default "* * * * */5" | quote }}</value>
                   </parameter>
                   <parameter>
-                    <name>configmap.food</name>
-                    <value>{{ .food | default "rice" | upper | quote }}</value>
+                    <name>crontab.image</name>
+                    <value>{{ .image | default "my-awesome-cron-image" | upper | quote }}</value>
                   </parameter>
                   <parameter>
-                    <name>configmap.release</name>
+                    <name>crontab.release</name>
                     <value>{{ .Chart.Version }}</value>
                   </parameter>
                   <parameter>
-                    <name>configmap.name</name>
-                    <value>${project.artifactId}</value>
-                  </parameter>
-                  <parameter>
-                    <name>configmap.managedby</name>
+                    <name>crontab.managedby</name>
                     <value>jkube</value>
                   </parameter>
                 </parameters>

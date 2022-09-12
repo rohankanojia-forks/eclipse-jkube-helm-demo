@@ -1,0 +1,10 @@
+apiVersion: "stable.example.com/v1"
+kind: CronTab
+metadata:
+  name: ${project.artifactId}
+  labels:
+    helm.sh/chart: "${project.artifactId}-${crontab.release}"
+    app.kubernetes.io/managed-by: "${crontab.managedby}"
+spec:
+  cronSpec: ${crontab.spec}
+  image: ${crontab.image}
