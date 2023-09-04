@@ -1,8 +1,8 @@
 plugins {
     id 'java'
     id 'io.quarkus'
-    id 'org.eclipse.jkube.kubernetes' version '1.12.0'
-    id 'org.eclipse.jkube.openshift' version '1.12.0'
+    id 'org.eclipse.jkube.kubernetes' version '1.14.0'
+    id 'org.eclipse.jkube.openshift' version '1.14.0'
 }
 
 repositories {
@@ -38,10 +38,16 @@ compileTestJava {
 kubernetes {
     helm {
         snapshotRepository {
-            name = 'ChartMuseum'
-            url = 'http://localhost:8080/api/charts'
-            type = 'CHARTMUSEUM'
-            username = 'user1'
+//            name = 'GitHub'
+//            url = 'https://ghcr.io/r0haaaan'
+//            type = 'OCI'
+//            username = 'r0haaaan'
+//            password = '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'
+            name = 'Docker'
+            url = 'https://registry-1.docker.io/rohankanojia'
+            type = 'OCI'
+            username = 'rohankanojia'
+            password = 'roh##46705R'
         }
     }
 }
@@ -53,6 +59,7 @@ openshift {
             url = 'http://localhost:8080/api/charts'
             type = 'CHARTMUSEUM'
             username = 'user1'
+            password = 'secret'
         }
     }
 }

@@ -15,7 +15,9 @@
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
     <quarkus.platform.version>2.9.0.Final</quarkus.platform.version>
     <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
-    <jkube.version>1.12.0</jkube.version>
+    <jkube.version>1.14.0</jkube.version>
+    <image.username>rohankanojia</image.username>
+    <jkube.generator.name>${image.username}/%a:${project.version}</jkube.generator.name>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -90,11 +92,23 @@
         <version>${jkube.version}</version>
         <configuration>
           <helm>
+            <!--
             <snapshotRepository>
               <name>ChartMuseum</name>
               <url>http://localhost:8080/api/charts</url>
               <type>CHARTMUSEUM</type>
               <username>user1</username>
+            </snapshotRepository>
+            -->
+            <snapshotRepository>
+              <name>quay.io</name>
+              <url>https://quay.io/rohan.kanojia</url>
+              <type>OCI</type>
+              <!--
+              <name>Docker</name>
+              <url>https://registry-1.docker.io/rohankanojia</url>
+              <type>OCI</type>
+              -->
             </snapshotRepository>
           </helm>
         </configuration>
@@ -129,12 +143,40 @@
             <sourceDir>${project.basedir}/target/classes/META-INF/jkube</sourceDir>
             <outputDir>${project.basedir}/target/jkube/helm</outputDir>
             <chartExtension>tar.gz</chartExtension>
+            <!--
             <snapshotRepository>
               <name>ChartMuseum</name>
               <url>http://localhost:8080/api/charts</url>
               <type>CHARTMUSEUM</type>
               <username>user1</username>
               <password>secret</password>
+            </snapshotRepository>
+            <snapshotRepository>
+              <name>Artifactory</name>
+              <url>https://rokumar2.jfrog.io/artifactory/rokumar-helm/</url>
+              <type>ARTIFACTORY</type>
+              <username>rohaan@redhat.com</username>
+              <password>cmVmdGtuOjAxOjE3MjA2OTMxMTE6ZjFRaG9IT01QZ09vVXBxQnd1TmhnQTRoelUz</password>
+            </snapshotRepository>
+            -->
+            <!--
+            <snapshotRepository>
+              <name>Nexus</name>
+              <url>http://192.168.39.103:30565/repository/local-helm</url>
+              <type>NEXUS</type>
+              <username>admin</username>
+              <password>12345</password>
+            </snapshotRepository>
+            -->
+            <snapshotRepository>
+              <name>Docker</name>
+              <url>https://registry-1.docker.io/rohankanojia</url>
+              <type>OCI</type>
+            <!--
+              <name>quay.io</name>
+              <url>https://quay.io/rohan.kanojia</url>
+              <type>OCI</type>
+              -->
             </snapshotRepository>
           </helm>
         </configuration>
