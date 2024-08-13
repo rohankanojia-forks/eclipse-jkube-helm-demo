@@ -15,9 +15,10 @@
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
     <quarkus.platform.version>2.9.0.Final</quarkus.platform.version>
     <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
-    <jkube.version>1.16.2</jkube.version>
+    <jkube.version>1.17.0</jkube.version>
     <image.username>rohankanojia</image.username>
-    <jkube.generator.name>${image.username}/%a:${project.version}</jkube.generator.name>
+    <jkube.generator.name>${image.username}/%g:%t</jkube.generator.name>
+    <jkube.enricher.jkube-service.type>NodePort</jkube.enricher.jkube-service.type>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -224,6 +225,51 @@
         <plugins>
           <plugin>
             <groupId>org.eclipse.jkube</groupId>
+            <artifactId>kubernetes-maven-plugin</artifactId>
+            <version>${jkube.version}</version>
+            <configuration>
+              <helm>
+                <chart>${project.artifactId}</chart>
+                <version>${project.version}</version>
+                <description>JKube Helm Maven demo Helm Chart (XML)</description>
+                <home>https://www.eclipse.org/jkube/</home>
+                <sources>
+                  <source>https://github.com/eclipse/jkube</source>
+                </sources>
+                <maintainers>
+                  <maintainer>
+                    <name>Maintainer1</name>
+                    <email>maintainer1@maintainer1.org</email>
+                    <url>maintainer1.org</url>
+                  </maintainer>
+                  <maintainer>
+                    <name>Maintainer2</name>
+                    <email>maintainer2@maintainer2.org</email>
+                    <url>maintainer2.org</url>
+                  </maintainer>
+                </maintainers>
+                <icon>https://helm.sh/img/helm.svg</icon>
+                <keywords>eclipse,jkube,kubernetes,maven</keywords>
+                <sourceDir>${project.basedir}/target/classes/META-INF/jkube</sourceDir>
+                <outputDir>${project.basedir}/target/jkube/helm</outputDir>
+                <chartExtension>tar.gz</chartExtension>
+                <dependencies>
+                  <dependency>
+                    <name>mysql</name>
+                    <version>9.3.4</version>
+                    <repository>https://charts.bitnami.com/bitnami</repository>
+                  </dependency>
+                </dependencies>
+                <!--
+                -->
+                <debug>true</debug>
+                <dependencySkipRefresh>true</dependencySkipRefresh>
+                <dependencyVerify>false</dependencyVerify>
+              </helm>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.eclipse.jkube</groupId>
             <artifactId>openshift-maven-plugin</artifactId>
             <version>${jkube.version}</version>
             <configuration>
@@ -254,11 +300,16 @@
                 <chartExtension>tar.gz</chartExtension>
                 <dependencies>
                   <dependency>
-                    <name>ingress-nginx</name>
-                    <version>3.16.1</version>
-                    <repository>https://kubernetes.github.io/ingress-nginx</repository>
+                    <name>mysql</name>
+                    <version>9.3.4</version>
+                    <repository>https://charts.bitnami.com/bitnami</repository>
                   </dependency>
                 </dependencies>
+                <!--
+                <debug>true</debug>
+                <dependencySkipRefresh>true</dependencySkipRefresh>
+                <dependencyVerify>true</dependencyVerify>
+                -->
               </helm>
             </configuration>
           </plugin>
